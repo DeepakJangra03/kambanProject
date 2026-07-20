@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: 'Inter', 'Outfit', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Custom CSS Variables & Minimalist B&W Theme */
+:root {
+    --bg-workspace: #f8f9fa;
+    --bg-navbar: #ffffff;
+    --bg-column: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #fafafa;
+    --border-color: #e5e5e5;
+    --border-hover: #000000;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
+    --text-primary: #09090b;
+    --text-secondary: #71717a;
+}
+
+body {
+    background-color: var(--bg-workspace);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow-y: hidden;
+    margin: 0;
+}
+
+/* Custom Webkit Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+/* App Header styling */
+.navbar {
+    background: var(--bg-navbar);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Boards Grid and Card styling */
+.board-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+.board-card:hover {
+    transform: translateY(-4px) !important;
+    background: var(--bg-card-hover) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Kanban column layout */
+.kanban-column {
+    background: var(--bg-column) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+.kanban-column:hover {
+    border-color: #d4d4d8 !important;
+}
+
+/* Kanban Card item */
+.kanban-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px;
+    transition: all 0.2s ease !important;
+    box-shadow: var(--shadow-sm);
+}
+.kanban-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: var(--border-hover) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Drag State Styling */
+.kanban-card.dragging {
+    opacity: 0.5;
+    border: 2px dashed #000000 !important;
+    transform: rotate(3deg) scale(1.02) !important;
+}
+
+/* Modal Animations & Styles */
+.modal-backdrop {
+    animation: fadeIn 0.2s ease-out forwards;
+    background: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+    background: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 16px;
+    box-shadow: var(--shadow-premium);
+}
+
+/* Inputs & Textareas */
+input, textarea, select {
+    background: #ffffff !important;
+    border: 1px solid #d4d4d8 !important;
+    color: #09090b !important;
+    transition: all 0.2s ease;
+}
+input:focus, textarea:focus, select:focus {
+    border-color: #000000 !important;
+    box-shadow: 0 0 0 1px #000000 !important;
+    outline: none !important;
+}
+
+/* Helper Animation classes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+.animate-scale-up { animation: scaleUp 0.2s ease-out forwards; }
