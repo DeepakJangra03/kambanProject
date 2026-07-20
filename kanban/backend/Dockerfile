@@ -17,9 +17,10 @@ COPY . .
 
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 
+# Create SQLite database and fix ALL permissions
 RUN touch database/database.sqlite \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 777 storage bootstrap/cache database
+    && chmod -R 777 storage bootstrap/cache database \
+    && chown -R www-data:www-data /var/www/html
 
 # Nginx config
 RUN echo 'server { \
@@ -36,7 +37,7 @@ RUN echo 'server { \
 }' > /etc/nginx/sites-available/default
 
 # Start script
-RUN printf '#!/bin/bash\nphp artisan key:generate --force\nphp artisan config:clear\nphp artisan migrate --force\nphp-fpm -D\nnginx -g "daemon off;"\n' > /start.sh && chmod +x /start.sh
+RUN printf '#!/bin/bash\nchmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache\nphp artisan key:generate --force\nphp artisan config:clear\nphp artisan migrate --force\nphp-fpm -D\nexec nginx -g "daemon off;"\n' > /start.sh && chmod +x /start.sh
 
 EXPOSE 80
 
