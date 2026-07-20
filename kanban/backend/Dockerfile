@@ -25,3 +25,4 @@ USER www-data
 ENV AUTORUN_ENABLED=true
 ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/var/www/html/database/database.sqlite
+ENV SSL_MODE=off
