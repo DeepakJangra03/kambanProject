@@ -1,120 +1,354 @@
 @import "tailwindcss";
 
 @theme {
-    --font-sans: 'Inter', 'Outfit', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Custom CSS Variables & Minimalist B&W Theme */
+/* iOS Glassmorphism Theme with Liquid Glass Effects */
 :root {
-    --bg-workspace: #f8f9fa;
-    --bg-navbar: #ffffff;
-    --bg-column: #ffffff;
-    --bg-card: #ffffff;
-    --bg-card-hover: #fafafa;
-    --border-color: #e5e5e5;
-    --border-hover: #000000;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
-    --text-primary: #09090b;
-    --text-secondary: #71717a;
+    /* Glassmorphism Colors */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    
+    /* Premium Gradients */
+    --gradient-mesh: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+    --gradient-purple: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-pink: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    
+    /* Glass Shadows */
+    --shadow-glass-sm: 0 4px 16px rgba(31, 38, 135, 0.15);
+    --shadow-glass-md: 0 8px 32px rgba(31, 38, 135, 0.25);
+    --shadow-glass-lg: 0 12px 48px rgba(31, 38, 135, 0.35);
+    --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+    
+    /* Text Colors */
+    --text-glass: rgba(255, 255, 255, 0.95);
+    --text-glass-muted: rgba(255, 255, 255, 0.65);
 }
 
+/* Animated Gradient Background */
 body {
-    background-color: var(--bg-workspace);
-    color: var(--text-primary);
-    font-family: var(--font-sans);
-    overflow-y: hidden;
     margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    overflow: hidden;
+    position: relative;
+    background: #1a1a2e;
 }
 
-/* Custom Webkit Scrollbars */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient-mesh);
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+}
 
-/* App Header styling */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.3), transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(118, 75, 162, 0.2), transparent 50%);
+    animation: floatGlow 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes gradientShift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(5%, 5%) rotate(90deg); }
+    50% { transform: translate(-5%, 5%) rotate(180deg); }
+    75% { transform: translate(-5%, -5%) rotate(270deg); }
+}
+
+@keyframes floatGlow {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Premium Glass Scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { 
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb { 
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+::-webkit-scrollbar-thumb:hover { 
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* iOS Glassmorphic Navbar */
 .navbar {
-    background: var(--bg-navbar);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 24px rgba(31, 38, 135, 0.2);
+    position: relative;
+    z-index: 100;
 }
 
-/* Boards Grid and Card styling */
+/* Liquid Glass Board Cards */
 .board-card {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 12px;
-    transition: all 0.2s ease-in-out !important;
-    box-shadow: var(--shadow-sm) !important;
+    background: rgba(255, 255, 255, 0.09) !important;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 24px !important;
+    box-shadow: var(--shadow-glass-sm) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
 }
+
+.board-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.board-card:hover::before {
+    left: 100%;
+}
+
 .board-card:hover {
-    transform: translateY(-4px) !important;
-    background: var(--bg-card-hover) !important;
-    border-color: var(--border-hover) !important;
-    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-8px) scale(1.02) !important;
+    background: rgba(255, 255, 255, 0.13) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: var(--shadow-glass-md), var(--shadow-glow) !important;
 }
 
-/* Kanban column layout */
+/* Premium Kanban Columns */
 .kanban-column {
-    background: var(--bg-column) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--shadow-glass-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
+
+.kanban-column::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.kanban-column:hover::before {
+    opacity: 1;
+}
+
 .kanban-column:hover {
-    border-color: #d4d4d8 !important;
+    background: rgba(255, 255, 255, 0.11) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: var(--shadow-glass-md);
+    transform: translateY(-2px);
 }
 
-/* Kanban Card item */
+/* Liquid Glass Cards */
 .kanban-card {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 8px;
-    transition: all 0.2s ease !important;
-    box-shadow: var(--shadow-sm);
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--shadow-glass-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
 }
+
+.kanban-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.kanban-card:hover::after {
+    opacity: 1;
+}
+
 .kanban-card:hover {
-    transform: translateY(-2px) !important;
-    border-color: var(--border-hover) !important;
-    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-4px) scale(1.02) !important;
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: var(--shadow-glass-md), 0 0 30px rgba(102, 126, 234, 0.2) !important;
 }
 
-/* Drag State Styling */
+/* Drag State with Liquid Effect */
 .kanban-card.dragging {
-    opacity: 0.5;
-    border: 2px dashed #000000 !important;
-    transform: rotate(3deg) scale(1.02) !important;
+    opacity: 0.6;
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px dashed rgba(255, 255, 255, 0.5) !important;
+    transform: rotate(5deg) scale(1.05) !important;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4) !important;
+    animation: liquidPulse 0.6s ease-in-out infinite;
 }
 
-/* Modal Animations & Styles */
+@keyframes liquidPulse {
+    0%, 100% { transform: rotate(5deg) scale(1.05); }
+    50% { transform: rotate(-5deg) scale(1.08); }
+}
+
+/* Premium Modal */
 .modal-backdrop {
-    animation: fadeIn 0.2s ease-out forwards;
-    background: rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease-out forwards;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
 }
+
 .modal-content {
-    background: #ffffff !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 16px;
-    box-shadow: var(--shadow-premium);
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 28px !important;
+    box-shadow: var(--shadow-glass-lg), 0 0 60px rgba(102, 126, 234, 0.3);
+    animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Inputs & Textareas */
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-20px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Glass Inputs */
 input, textarea, select {
-    background: #ffffff !important;
-    border: 1px solid #d4d4d8 !important;
-    color: #09090b !important;
-    transition: all 0.2s ease;
-}
-input:focus, textarea:focus, select:focus {
-    border-color: #000000 !important;
-    box-shadow: 0 0 0 1px #000000 !important;
-    outline: none !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-glass) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
 }
 
-/* Helper Animation classes */
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3), 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+    outline: none !important;
+    transform: translateY(-1px);
+}
+
+/* Premium Button Styles */
+button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Floating Animation for Elements */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Glass Tag Badges */
+.glass-tag {
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Text Styles for Glass UI */
+.text-glass {
+    color: var(--text-glass);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.text-glass-muted {
+    color: var(--text-glass-muted);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Helper Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -122,7 +356,7 @@ input:focus, textarea:focus, select:focus {
 
 @keyframes scaleUp {
     from {
-        transform: scale(0.95);
+        transform: scale(0.9);
         opacity: 0;
     }
     to {
@@ -131,5 +365,5 @@ input:focus, textarea:focus, select:focus {
     }
 }
 
-.animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
-.animate-scale-up { animation: scaleUp 0.2s ease-out forwards; }
+.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+.animate-scale-up { animation: scaleUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }

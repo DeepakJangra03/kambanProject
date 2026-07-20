@@ -335,15 +335,16 @@ export default function App() {
     return (
         <div className="flex flex-col min-h-screen">
 
-            <header className="navbar flex justify-between items-center px-6 py-4 bg-transparent border-b border-gray-200">
+            <header className="navbar flex justify-between items-center px-6 py-4 bg-transparent border-b">
                 <div className="flex items-center gap-4">
-                    <span className="text-xl font-bold tracking-wide text-black">
-                        Kanban Board
+                    <span className="text-xl font-bold tracking-wide text-white drop-shadow-lg">
+                        ✨ Kanban Board
                     </span>
                     {activeBoardId && (
                         <button
                             onClick={() => setActiveBoardId(null)}
-                            className="text-xs bg-black hover:bg-gray-800 px-3 py-1 rounded transition-colors text-white font-semibold"
+                            className="text-xs px-4 py-2 rounded-xl transition-all text-white font-semibold backdrop-blur-sm"
+                            style={{background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.2)'}}
                         >
                             ← Back to Boards
                         </button>
@@ -352,13 +353,15 @@ export default function App() {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => setShowMemberModal(true)}
-                        className="text-xs bg-black hover:bg-gray-800 px-3 py-1.5 rounded text-white text-white font-semibold transition-transform hover:scale-105"
+                        className="text-xs px-4 py-2 rounded-xl text-white font-semibold transition-all backdrop-blur-sm"
+                        style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'}}
                     >
                         + Add Member
                     </button>
                     <button
                         onClick={() => setShowTagModal(true)}
-                        className="text-xs bg-white border border-gray-300 text-black hover:bg-gray-100 px-3 py-1.5 rounded font-semibold transition-transform hover:scale-105"
+                        className="text-xs px-4 py-2 rounded-xl font-semibold text-white transition-all backdrop-blur-sm"
+                        style={{background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.25)'}}
                     >
                         + Add Tag
                     </button>
@@ -373,42 +376,43 @@ export default function App() {
                 ) : !activeBoardId ? (
 
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-2xl font-semibold mb-6 text-black">Your Boards</h2>
+                        <h2 className="text-3xl font-bold mb-8 text-white drop-shadow-lg">🎯 Your Boards</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {boards.map(board => (
                                 <div
                                     key={board.id}
                                     onClick={() => setActiveBoardId(board.id)}
-                                    className="board-card bg-gray-50 hover:bg-gray-100 p-6 rounded-lg border border-gray-200 hover:border-gray-400 cursor-pointer transition-all shadow-md group"
+                                    className="board-card p-6 rounded-lg cursor-pointer transition-all group relative z-10"
                                 >
-                                    <div className="flex justify-between items-start">
-                                        <h3 className="text-lg font-bold group-hover:text-black transition-colors">
+                                    <div className="flex justify-between items-start relative z-10">
+                                        <h3 className="text-lg font-bold text-white group-hover:drop-shadow-lg transition-all">
                                             {board.name}
                                         </h3>
                                         <button 
                                             onClick={(e) => handleDeleteBoard(e, board.id)}
-                                            className="text-gray-400 hover:text-rose-500 transition-colors p-1"
+                                            className="text-white/60 hover:text-red-400 transition-colors p-1"
                                             title="Delete Board"
                                         >
                                             ✕
                                         </button>
                                     </div>
-                                    <p className="text-sm text-gray-600 mt-2 h-12 overflow-hidden text-ellipsis line-clamp-2">
+                                    <p className="text-sm text-white/70 mt-3 h-12 overflow-hidden">
                                         {board.description || 'No description provided.'}
                                     </p>
-                                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500">
-                                        <span>{board.lists_count || 0} lists</span>
-                                        <span className="text-black group-hover:underline">Open Board →</span>
+                                    <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/20 text-xs text-white/60">
+                                        <span>📋 {board.lists_count || 0} lists</span>
+                                        <span className="text-white font-semibold group-hover:underline">Open →</span>
                                     </div>
                                 </div>
                             ))}
 
                             <div
                                 onClick={() => setShowBoardModal(true)}
-                                className="board-card flex flex-col justify-center items-center p-6 rounded-lg border border-dashed border-gray-300 hover:border-purple-500 cursor-pointer hover:bg-gray-50/40 transition-all min-h-[160px]"
+                                className="board-card flex flex-col justify-center items-center p-6 rounded-lg cursor-pointer transition-all min-h-[180px] relative z-10"
+                                style={{borderStyle: 'dashed'}}
                             >
-                                <span className="text-3xl text-gray-500">+</span>
-                                <span className="text-sm font-semibold text-gray-600 mt-2">Create New Board</span>
+                                <span className="text-5xl text-white/50 mb-3">+</span>
+                                <span className="text-sm font-semibold text-white/80">Create New Board</span>
                             </div>
                         </div>
                     </div>
@@ -420,25 +424,27 @@ export default function App() {
                             <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                 <div>
                                     <div className="flex items-center gap-3">
-                                        <h2 className="text-2xl font-bold text-black">{boardDetails.name}</h2>
+                                        <h2 className="text-3xl font-bold text-white drop-shadow-lg">{boardDetails.name}</h2>
                                         <button 
                                             onClick={(e) => handleDeleteBoard(e, boardDetails.id)}
-                                            className="text-xs text-rose-400 hover:text-white hover:bg-rose-500 transition-colors px-2 py-1 bg-rose-500/10 border border-rose-500/20 rounded"
+                                            className="text-xs text-white hover:bg-rose-500 transition-all px-3 py-1.5 rounded-xl backdrop-blur-sm"
+                                            style={{background: 'rgba(239, 68, 68, 0.2)', border: '1px solid rgba(239, 68, 68, 0.3)'}}
                                             title="Delete Board"
                                         >
-                                            Delete Board
+                                            🗑️ Delete
                                         </button>
                                     </div>
-                                    <p className="text-sm text-gray-600 max-w-2xl mt-1">{boardDetails.description}</p>
+                                    <p className="text-sm text-white/70 max-w-2xl mt-2">{boardDetails.description}</p>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <div className="flex -space-x-2 overflow-hidden">
+                                    <div className="flex -space-x-2">
                                         {boardDetails.members && boardDetails.members.map(m => (
                                             <div
                                                 key={m.id}
                                                 title={`${m.name} (${m.email})`}
-                                                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-black text-white text-xs font-bold border-2 border-white shadow"
+                                                className="inline-flex items-center justify-center w-10 h-10 rounded-full text-white text-sm font-bold border-2 shadow-lg"
+                                                style={{background: 'linear-gradient(135deg, #667eea, #764ba2)', borderColor: 'rgba(255, 255, 255, 0.3)'}}
                                             >
                                                 {m.name.charAt(0)}
                                             </div>
@@ -449,13 +455,14 @@ export default function App() {
                                             if (e.target.value) handleAddBoardMember(e.target.value);
                                             e.target.value = '';
                                         }}
-                                        className="text-xs bg-gray-50 text-black border border-gray-200 px-2 py-1.5 rounded"
+                                        className="text-xs px-3 py-2 rounded-xl backdrop-blur-sm text-white font-medium"
+                                        style={{background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)'}}
                                     >
-                                        <option value="">+ Invite Member</option>
+                                        <option value="" className="text-gray-900">+ Invite Member</option>
                                         {members
                                             .filter(m => !boardDetails.members?.some(bm => bm.id === m.id))
                                             .map(m => (
-                                                <option key={m.id} value={m.id}>{m.name}</option>
+                                                <option key={m.id} value={m.id} className="text-gray-900">{m.name}</option>
                                             ))
                                         }
                                     </select>
@@ -468,16 +475,16 @@ export default function App() {
                                         key={list.id}
                                         onDragOver={handleDragOver}
                                         onDrop={(e) => handleDrop(e, list.id)}
-                                        className="kanban-column bg-gray-50 backdrop-blur w-72 shrink-0 p-4 rounded-lg border border-gray-200 flex flex-col max-h-[75vh]"
+                                        className="kanban-column backdrop-blur w-72 shrink-0 p-4 rounded-lg flex flex-col max-h-[75vh]"
                                     >
 
-                                        <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-bold text-black text-sm tracking-wide uppercase">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h4 className="font-bold text-white text-sm tracking-wider uppercase drop-shadow-md">
                                                 {list.name}
                                             </h4>
                                             <button
                                                 onClick={() => handleDeleteList(list.id)}
-                                                className="text-gray-500 hover:text-rose-400 text-xs transition-colors"
+                                                className="text-white/50 hover:text-red-400 text-sm transition-colors"
                                             >
                                                 ✕
                                             </button>
@@ -491,14 +498,14 @@ export default function App() {
                                                     onDragStart={(e) => handleDragStart(e, card.id)}
                                                     onDragEnd={handleDragEnd}
                                                     onClick={() => setEditingCard(card)}
-                                                    className="kanban-card bg-gray-50 hover:bg-gray-100 p-4 rounded border border-gray-200 hover:border-gray-400 cursor-grab active:cursor-grabbing transition-all shadow-sm relative group"
+                                                    className="kanban-card p-4 rounded cursor-grab active:cursor-grabbing transition-all relative group"
                                                 >
 
-                                                    <div className="flex flex-wrap gap-1 mb-2">
+                                                    <div className="flex flex-wrap gap-1.5 mb-3">
                                                         {card.tags && card.tags.map(t => (
                                                             <span
                                                                 key={t.id}
-                                                                className="text-[10px] px-2 py-0.5 rounded font-bold uppercase text-black tracking-wider"
+                                                                className="glass-tag text-[10px] px-2.5 py-1 rounded-full font-bold uppercase text-white tracking-wider"
                                                                 style={{ backgroundColor: t.color }}
                                                             >
                                                                 {t.name}
@@ -506,22 +513,28 @@ export default function App() {
                                                         ))}
                                                     </div>
 
-                                                    <h5 className="font-semibold text-sm text-black mb-2">
+                                                    <h5 className="font-semibold text-sm text-white mb-3">
                                                         {card.title}
                                                     </h5>
 
-                                                    <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-200/50 text-[11px] text-gray-600">
+                                                    <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/10 text-[11px]">
 
                                                         {card.due_date ? (
                                                             <span
-                                                                className={`px-1.5 py-0.5 rounded font-semibold ${
+                                                                className={`px-2 py-1 rounded-lg font-semibold backdrop-blur-sm ${
                                                                     isOverdue(card.due_date)
-                                                                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                                                                        : 'bg-slate-700 text-black'
+                                                                        ? 'text-rose-300'
+                                                                        : 'text-white/80'
                                                                 }`}
+                                                                style={{
+                                                                    background: isOverdue(card.due_date) 
+                                                                        ? 'rgba(239, 68, 68, 0.2)' 
+                                                                        : 'rgba(255, 255, 255, 0.1)',
+                                                                    border: `1px solid ${isOverdue(card.due_date) ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 255, 255, 0.15)'}`
+                                                                }}
                                                             >
                                                                 📅 {formatDueDate(card.due_date)}
-                                                                {isOverdue(card.due_date) && ' (Overdue)'}
+                                                                {isOverdue(card.due_date) && ' ⚠️'}
                                                             </span>
                                                         ) : (
                                                             <span></span>
@@ -530,48 +543,50 @@ export default function App() {
                                                         {card.member ? (
                                                             <div
                                                                 title={`Assigned to ${card.member.name}`}
-                                                                className="w-5.5 h-5.5 rounded-full bg-black text-white flex items-center justify-center font-bold text-[10px]"
+                                                                className="w-7 h-7 rounded-full text-white flex items-center justify-center font-bold text-[10px] shadow-md"
+                                                                style={{background: 'linear-gradient(135deg, #667eea, #764ba2)'}}
                                                             >
                                                                 {card.member.name.charAt(0)}
                                                             </div>
                                                         ) : (
-                                                            <span className="text-[10px] text-gray-500 italic">Unassigned</span>
+                                                            <span className="text-[10px] text-white/40 italic">Unassigned</span>
                                                         )}
                                                     </div>
                                                 </div>
                                             ))}
                                             {list.cards?.length === 0 && (
-                                                <div className="text-center text-xs text-gray-500 py-6 border border-dashed border-gray-200 rounded">
+                                                <div className="text-center text-xs text-white/40 py-8 border border-dashed border-white/20 rounded-xl backdrop-blur-sm">
                                                     Drop cards here
                                                 </div>
                                             )}
                                         </div>
 
-                                        <div className="mt-4 pt-3 border-t border-gray-200/80">
+                                        <div className="mt-4 pt-3 border-t border-white/10">
                                             <input
                                                 type="text"
                                                 placeholder="+ Add card..."
                                                 value={newCardTitles[list.id] || ''}
                                                 onChange={(e) => setNewCardTitles({ ...newCardTitles, [list.id]: e.target.value })}
                                                 onKeyDown={(e) => { if (e.key === 'Enter') handleCreateCard(list.id); }}
-                                                className="w-full bg-gray-50 border border-gray-200 rounded px-2.5 py-1.5 text-xs text-black placeholder-slate-500 focus:outline-none focus:border-black"
+                                                className="w-full rounded-xl px-3 py-2 text-xs text-white font-medium"
                                             />
                                         </div>
                                     </div>
                                 ))}
 
-                                <div className="kanban-column bg-gray-50 w-72 shrink-0 p-4 rounded-lg border border-dashed border-gray-200 flex flex-col">
+                                <div className="kanban-column w-72 shrink-0 p-4 rounded-lg flex flex-col" style={{borderStyle: 'dashed'}}>
                                     <input
                                         type="text"
                                         placeholder="+ Add new list column..."
                                         value={newListNames[boardDetails.id] || ''}
                                         onChange={(e) => setNewListNames({ ...newListNames, [boardDetails.id]: e.target.value })}
                                         onKeyDown={(e) => { if (e.key === 'Enter') handleCreateList(boardDetails.id); }}
-                                        className="w-full bg-gray-50 border border-gray-200 rounded px-2.5 py-1.5 text-xs text-black placeholder-slate-500 focus:outline-none focus:border-black"
+                                        className="w-full rounded-xl px-3 py-2 text-xs text-white font-medium mb-2"
                                     />
                                     <button
                                         onClick={() => handleCreateList(boardDetails.id)}
-                                        className="text-xs bg-gray-50 hover:bg-slate-700 text-white font-semibold py-1.5 rounded mt-2 transition-colors"
+                                        className="text-xs text-white font-semibold py-2 rounded-xl transition-all backdrop-blur-sm"
+                                        style={{background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'}}
                                     >
                                         Create List
                                     </button>
@@ -583,32 +598,47 @@ export default function App() {
             </main>
 
             {showBoardModal && (
-                <div className="modal-backdrop fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center z-50">
-                    <div className="modal-content bg-white border border-gray-200 w-full max-w-md p-6 rounded-lg shadow-xl relative animate-fade-in">
+                <div className="modal-backdrop fixed inset-0 flex justify-center items-center z-50">
+                    <div className="modal-content w-full max-w-md p-8 rounded-lg relative">
                         <button
                             onClick={() => setShowBoardModal(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black"
+                            className="absolute top-4 right-4 text-white/70 hover:text-white text-xl"
                         >
                             ✕
                         </button>
-                        <h3 className="text-lg font-bold text-black mb-4">Create New Board</h3>
-                        <form onSubmit={handleCreateBoard} className="space-y-4">
+                        <h3 className="text-2xl font-bold text-white mb-6 drop-shadow-lg">✨ Create New Board</h3>
+                        <form onSubmit={handleCreateBoard} className="space-y-5">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Board Name</label>
+                                <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Board Name</label>
                                 <input
                                     type="text"
                                     required
                                     value={newBoard.name}
                                     onChange={(e) => setNewBoard({ ...newBoard, name: e.target.value })}
-                                    className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm text-black focus:outline-none focus:border-black"
+                                    className="w-full rounded-xl px-4 py-3 text-sm text-white font-medium"
                                     placeholder="Engineering Sprint, Vacation Planner..."
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Description (Optional)</label>
+                                <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Description (Optional)</label>
                                 <textarea
                                     value={newBoard.description}
                                     onChange={(e) => setNewBoard({ ...newBoard, description: e.target.value })}
+                                    className="w-full rounded-xl px-4 py-3 text-sm text-white font-medium h-24 resize-none"
+                                    placeholder="What is this board for?"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full py-3 rounded-xl text-white font-bold text-sm transition-all shadow-lg"
+                                style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'}}
+                            >
+                                Create Board
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}hange={(e) => setNewBoard({ ...newBoard, description: e.target.value })}
                                     className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm text-black focus:outline-none focus:border-black h-24 resize-none"
                                     placeholder="Explain the purpose of this board..."
                                 />
@@ -625,41 +655,42 @@ export default function App() {
             )}
 
             {showMemberModal && (
-                <div className="modal-backdrop fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center z-50">
-                    <div className="modal-content bg-white border border-gray-200 w-full max-w-md p-6 rounded-lg shadow-xl relative">
+                <div className="modal-backdrop fixed inset-0 flex justify-center items-center z-50">
+                    <div className="modal-content w-full max-w-md p-8 rounded-lg relative">
                         <button
                             onClick={() => setShowMemberModal(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black"
+                            className="absolute top-4 right-4 text-white/70 hover:text-white text-xl"
                         >
                             ✕
                         </button>
-                        <h3 className="text-lg font-bold text-black mb-4">Add Global Member</h3>
-                        <form onSubmit={handleCreateMember} className="space-y-4">
+                        <h3 className="text-2xl font-bold text-white mb-6 drop-shadow-lg">👤 Add Global Member</h3>
+                        <form onSubmit={handleCreateMember} className="space-y-5">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Full Name</label>
+                                <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Full Name</label>
                                 <input
                                     type="text"
                                     required
                                     value={newMember.name}
                                     onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
-                                    className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm text-black focus:outline-none focus:border-black"
+                                    className="w-full rounded-xl px-4 py-3 text-sm text-white font-medium"
                                     placeholder="John Doe"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Email Address</label>
+                                <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Email Address</label>
                                 <input
                                     type="email"
                                     required
                                     value={newMember.email}
                                     onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
-                                    className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm text-black focus:outline-none focus:border-black"
+                                    className="w-full rounded-xl px-4 py-3 text-sm text-white font-medium"
                                     placeholder="john@example.com"
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded text-sm transition-colors"
+                                className="w-full py-3 rounded-xl text-white font-bold text-sm transition-all shadow-lg"
+                                style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'}}
                             >
                                 Add Member
                             </button>
@@ -669,42 +700,43 @@ export default function App() {
             )}
 
             {showTagModal && (
-                <div className="modal-backdrop fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center z-50">
-                    <div className="modal-content bg-white border border-gray-200 w-full max-w-md p-6 rounded-lg shadow-xl relative">
+                <div className="modal-backdrop fixed inset-0 flex justify-center items-center z-50">
+                    <div className="modal-content w-full max-w-md p-8 rounded-lg relative">
                         <button
                             onClick={() => setShowTagModal(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black"
+                            className="absolute top-4 right-4 text-white/70 hover:text-white text-xl"
                         >
                             ✕
                         </button>
-                        <h3 className="text-lg font-bold text-black mb-4">Create Global Label Tag</h3>
-                        <form onSubmit={handleCreateTag} className="space-y-4">
+                        <h3 className="text-2xl font-bold text-white mb-6 drop-shadow-lg">🏷️ Create Global Tag</h3>
+                        <form onSubmit={handleCreateTag} className="space-y-5">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Tag Label Name</label>
+                                <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Tag Label Name</label>
                                 <input
                                     type="text"
                                     required
                                     value={newTag.name}
                                     onChange={(e) => setNewTag({ ...newTag, name: e.target.value })}
-                                    className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm text-black focus:outline-none focus:border-black"
+                                    className="w-full rounded-xl px-4 py-3 text-sm text-white font-medium"
                                     placeholder="Bug, Design, Optimization..."
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Label Tag Color</label>
+                                <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Label Tag Color</label>
                                 <div className="flex gap-3 items-center">
                                     <input
                                         type="color"
                                         value={newTag.color}
                                         onChange={(e) => setNewTag({ ...newTag, color: e.target.value })}
-                                        className="w-12 h-10 bg-transparent border-0 cursor-pointer"
+                                        className="w-14 h-12 rounded-xl cursor-pointer border-2 border-white/20"
                                     />
-                                    <span className="text-xs text-gray-600 font-mono">{newTag.color}</span>
+                                    <span className="text-sm text-white/80 font-mono backdrop-blur-sm px-3 py-2 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.1)'}}>{newTag.color}</span>
                                 </div>
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 rounded text-sm transition-colors"
+                                className="w-full py-3 rounded-xl text-white font-bold text-sm transition-all shadow-lg"
+                                style={{background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'}}
                             >
                                 Add Label Tag
                             </button>
@@ -714,19 +746,20 @@ export default function App() {
             )}
 
             {editingCard && (
-                <div className="modal-backdrop fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center z-50">
-                    <div className="modal-content bg-white border border-gray-200 w-full max-w-xl p-6 rounded-lg shadow-xl relative animate-scale-up">
+                <div className="modal-backdrop fixed inset-0 flex justify-center items-center z-50">
+                    <div className="modal-content w-full max-w-2xl p-8 rounded-lg relative">
                         <button
                             onClick={() => setEditingCard(null)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black"
+                            className="absolute top-4 right-4 text-white/70 hover:text-white text-xl"
                         >
                             ✕
                         </button>
 
-                        <div className="mb-4">
+                        <div className="mb-6">
                             <input
                                 type="text"
-                                className="w-full bg-transparent border-0 font-bold text-xl text-black focus:outline-none focus:bg-gray-50 px-2 py-1 rounded"
+                                className="w-full bg-transparent border-0 font-bold text-2xl text-white focus:outline-none px-2 py-1 rounded-lg placeholder-white/40"
+                                style={{background: 'rgba(255, 255, 255, 0.08)'}}
                                 defaultValue={editingCard.title}
                                 onBlur={(e) => {
                                     if (e.target.value.trim() && e.target.value !== editingCard.title) {
@@ -740,9 +773,9 @@ export default function App() {
 
                             <div className="md:col-span-2 space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Description</label>
+                                    <label className="block text-xs font-semibold text-white/80 uppercase mb-2">Description</label>
                                     <textarea
-                                        className="w-full bg-gray-50 border border-gray-200 rounded p-2.5 text-sm text-black focus:outline-none focus:border-black h-32 resize-none"
+                                        className="w-full rounded-xl p-4 text-sm text-white font-medium h-36 resize-none"
                                         placeholder="Add a detailed description..."
                                         defaultValue={editingCard.description || ''}
                                         onBlur={(e) => {
@@ -754,30 +787,30 @@ export default function App() {
                                 </div>
                             </div>
 
-                            <div className="space-y-4 border-l border-gray-200/50 pl-0 md:pl-4">
+                            <div className="space-y-4 border-l border-white/10 pl-0 md:pl-6">
 
                                 <div>
-                                    <label className="block text-[11px] font-semibold text-gray-600 uppercase mb-1">Assignee</label>
+                                    <label className="block text-[11px] font-semibold text-white/70 uppercase mb-2">👤 Assignee</label>
                                     <select
-                                        className="w-full bg-gray-50 border border-gray-200 rounded text-xs px-2.5 py-1.5 text-black"
+                                        className="w-full rounded-xl text-sm px-3 py-2 text-white font-medium"
                                         value={editingCard.member_id || ''}
                                         onChange={(e) => {
                                             const val = e.target.value ? parseInt(e.target.value) : null;
                                             handleUpdateCardDetails(editingCard.id, { member_id: val });
                                         }}
                                     >
-                                        <option value="">Unassigned</option>
+                                        <option value="" className="text-gray-900">Unassigned</option>
                                         {boardDetails.members && boardDetails.members.map(m => (
-                                            <option key={m.id} value={m.id}>{m.name}</option>
+                                            <option key={m.id} value={m.id} className="text-gray-900">{m.name}</option>
                                         ))}
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[11px] font-semibold text-gray-600 uppercase mb-1">Due Date</label>
+                                    <label className="block text-[11px] font-semibold text-white/70 uppercase mb-2">📅 Due Date</label>
                                     <input
                                         type="date"
-                                        className="w-full bg-gray-50 border border-gray-200 rounded text-xs px-2.5 py-1.5 text-black focus:outline-none"
+                                        className="w-full rounded-xl text-sm px-3 py-2 text-white font-medium"
                                         value={editingCard.due_date ? editingCard.due_date.substring(0, 10) : ''}
                                         onChange={(e) => {
                                             const val = e.target.value ? e.target.value + ' 12:00:00' : null;
@@ -787,8 +820,8 @@ export default function App() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[11px] font-semibold text-gray-600 uppercase mb-1">Labels/Tags</label>
-                                    <div className="flex flex-col gap-1.5 max-h-36 overflow-y-auto border border-gray-200 p-2 rounded bg-gray-50/50">
+                                    <label className="block text-[11px] font-semibold text-white/70 uppercase mb-2">🏷️ Labels/Tags</label>
+                                    <div className="flex flex-col gap-2 max-h-40 overflow-y-auto p-3 rounded-xl" style={{background: 'rgba(255, 255, 255, 0.08)'}}>
                                         {tags.map(tag => {
                                             const isAttached = editingCard.tags?.some(t => t.id === tag.id);
                                             return (
@@ -806,10 +839,10 @@ export default function App() {
                                                             }
                                                             handleUpdateCardDetails(editingCard.id, { tags: newTagIds });
                                                         }}
-                                                        className="rounded text-black focus:ring-purple-500 border-gray-200"
+                                                        className="rounded text-purple-500 focus:ring-purple-500"
                                                     />
                                                     <span
-                                                        className="px-2 py-0.5 rounded text-[10px] font-bold text-black uppercase tracking-wider block flex-1"
+                                                        className="glass-tag px-2.5 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider block flex-1"
                                                         style={{ backgroundColor: tag.color }}
                                                     >
                                                         {tag.name}
@@ -820,12 +853,13 @@ export default function App() {
                                     </div>
                                 </div>
 
-                                <div className="pt-4 border-t border-gray-200/50">
+                                <div className="pt-4 border-t border-white/10">
                                     <button
                                         onClick={() => handleDeleteCard(editingCard.id)}
-                                        className="w-full bg-rose-600 hover:bg-rose-500 text-white font-semibold py-1.5 rounded text-xs transition-colors"
+                                        className="w-full py-2.5 rounded-xl text-white font-semibold text-sm transition-all backdrop-blur-sm"
+                                        style={{background: 'rgba(239, 68, 68, 0.3)', border: '1px solid rgba(239, 68, 68, 0.4)'}}
                                     >
-                                        Delete Card
+                                        🗑️ Delete Card
                                     </button>
                                 </div>
                             </div>
