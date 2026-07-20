@@ -36,10 +36,7 @@ RUN echo 'server { \
 }' > /etc/nginx/sites-available/default
 
 # Start script
-RUN echo '#!/bin/bash\n\
-php artisan migrate --force\n\
-php-fpm -D\n\
-nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
+RUN printf '#!/bin/bash\nphp artisan key:generate --force\nphp artisan config:clear\nphp artisan migrate --force\nphp-fpm -D\nnginx -g "daemon off;"\n' > /start.sh && chmod +x /start.sh
 
 EXPOSE 80
 
