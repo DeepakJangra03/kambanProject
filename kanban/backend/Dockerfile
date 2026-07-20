@@ -1,28 +1,43 @@
-FROM serversideup/php:8.4-fpm-nginx
+FROM php:8.4-apache
 
-USER root
+# Install required PHP extensions
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev \
+    zip \
+    unzip \
+    curl \
+    && docker-php-ext-install pdo pdo_sqlite \
+    && a2enmod rewrite \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install sqlite extension
-RUN install-php-extensions pdo_sqlite sqlite3
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY --chown=www-data:www-data . .
+# Copy application files
+COPY . .
 
-# Install composer dependencies
-RUN composer install --no-dev --no-interaction --no-ansi --no-progress --optimize-autoloader
+# Install dependencies
+RUN composer install --no-dev --no-interaction --optimize-autoloader
 
-# Create SQLite database file
-RUN mkdir -p database && touch database/database.sqlite
+# Create SQLite database
+RUN touch database/database.sqlite
 
 # Set permissions
-RUN chmod -R 775 storage bootstrap/cache database
-RUN chown -R www-data:www-data storage bootstrap/cache database
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 storage bootstrap/cache database
 
-USER www-data
+# Apache config - point to Laravel public folder
+RUN echo '<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html/public\n\
+    <Directory /var/www/html/public>\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-# Auto-run migrations on startup
-ENV AUTORUN_ENABLED=true
-ENV DB_CONNECTION=sqlite
-ENV DB_DATABASE=/var/www/html/database/database.sqlite
-ENV SSL_MODE=off
+# Run migrations on start
+CMD php artisan migrate --force && apache2-foreground
+
+EXPOSE 80
