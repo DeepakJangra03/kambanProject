@@ -638,20 +638,6 @@ export default function App() {
                         </form>
                     </div>
                 </div>
-            )}hange={(e) => setNewBoard({ ...newBoard, description: e.target.value })}
-                                    className="w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm text-black focus:outline-none focus:border-black h-24 resize-none"
-                                    placeholder="Explain the purpose of this board..."
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded text-sm transition-transform hover:scale-102"
-                            >
-                                Create Board
-                            </button>
-                        </form>
-                    </div>
-                </div>
             )}
 
             {showMemberModal && (
