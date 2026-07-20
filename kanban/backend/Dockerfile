@@ -19,7 +19,7 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 RUN touch database/database.sqlite \
     && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache database
+    && chmod -R 777 storage bootstrap/cache database
 
 # Nginx config
 RUN echo 'server { \
